@@ -363,7 +363,10 @@ export async function generatePdf(report: Report): Promise<GeneratedPdf> {
   const merged = await mergePdfAttachments(base, report);
   await stampAllPages(merged);
   const bytes = await merged.save({ useObjectStreams: true });
-  const blob = new Blob([bytes], { type: 'application/pdf' });
+  const blob = new Blob(
+  [bytes as unknown as BlobPart],
+  { type: 'application/pdf' }
+);
   return {
     blob,
     url: URL.createObjectURL(blob),
